@@ -42,11 +42,29 @@ namespace SmartMinyanServer.Controllers
             mRepo.AddUser(user);
         }
      
-        // DELETE api/values/5
+        // DELETE Minyan
         [HttpDelete]
         public void DeleteMinyan(int id)
         {
-            
+            mRepo.DeleteMinyan(id);
         }
+        // DELETE User
+        [HttpDelete]
+        public void DeleteUser(int id)
+        {
+            mRepo.DeleteUser(id);
+        }
+        //UPDATE minyan
+        [HttpPatch]
+        public void PatchMinyan([FromBody] Minyan minyan) {
+            mRepo.UpdateMinyan(minyan);
+        }
+
+        [HttpPatch]
+        public void PatchUser([FromBody] User user)
+        {
+            mRepo.UpdateUser(user);
+        }
+
     }
 }

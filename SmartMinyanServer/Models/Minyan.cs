@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace SmartMinyanServer.Models
 {
     public class Minyan
@@ -11,7 +13,7 @@ namespace SmartMinyanServer.Models
         public string Address { get; set; }
         public string Description { get; set; }
         public User Creator { get; set; }
-        public string[] Comments { get; set; }
-        public User[] Commitments { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<User> Commitments { get; set; } = new List<User>();
     }
 }

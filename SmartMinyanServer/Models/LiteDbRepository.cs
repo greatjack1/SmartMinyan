@@ -29,14 +29,14 @@ namespace SmartMinyanServer.Models
         public IEnumerable<Minyan> getNearbyMinyan(double latitude,double longitude,double degreesAroundToCheck){
             return mMinyan.Find((n)=>(n.Latitude - latitude < degreesAroundToCheck || n.Longitude - longitude < degreesAroundToCheck));
         }
-        public void DeleteMinyan(Minyan minyan)
+        public void DeleteMinyan(int minyanID)
         {
-            mMinyan.Delete(new LiteDB.BsonValue(minyan.Id));
+            mMinyan.Delete(new BsonValue(minyanID));
         }
 
-        public void DeleteUser(User user)
+        public void DeleteUser(int userID)
         {
-            mUsers.Delete(new LiteDB.BsonValue(user.Id));
+            mUsers.Delete(new BsonValue(userID));
         }
 
         public IEnumerable<Minyan> getMinyanim()
@@ -63,6 +63,30 @@ namespace SmartMinyanServer.Models
         public void UpdateUser(User user)
         {
             mUsers.Update(user);
+        }
+
+        public void AddComment(Comment comment, int minyanId)
+        {
+            mMinyan.FindById(new BsonValue(minyanId)).Comments.Add(comment);
+        }
+
+        public List<Comment> GetComments(int minyanId)
+        {
+            return mMinyan.FindById(new BsonValue(minyanId)).Comments;
+        }
+
+        //extremly ineffecient, hopefull will be able to iprove later
+        public List<Comment> GetUsersComments(User user)
+        {
+            List<Comment> comments = new List<Comment>();
+            foreach (Minyan minyan in mMinyan.FindAll()) {
+                foreach (Comment comment in minyan.Comments) {
+                    if (comment.UserName == user.UserName) {
+                        comments.Add(comment);
+                    }
+                }
+            }
+            return comments;
         }
     }
 }
