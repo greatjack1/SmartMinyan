@@ -17,14 +17,20 @@ namespace SmartMinyanServer.Models
             mMinyan = mLiteDatabase.GetCollection<Minyan>("minyanim");
         }
 
-        public void AddMinyan(Minyan minyan)
+        public bool AddMinyan(Minyan minyan)
         {
             mMinyan.Insert(minyan);
+            return true;
         }
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
+            //if the guid exists then dont add
+            if (mUsers.Exists((n) => n.Guid == user.Guid)) {
+                return false;
+            }
            mUsers.Insert(user);
+            return true;
         }
         public IEnumerable<Minyan> getNearbyMinyan(double latitude,double longitude,double degreesAroundToCheck){
             //To keep it simple add 180 to each value to prevent negatives and then compare

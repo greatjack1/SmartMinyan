@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SmartMinyanServer.Models;
+using SmartMinyanServer.AuthFilters;
 
 namespace SmartMinyanServer.Controllers
 {
@@ -15,6 +16,8 @@ namespace SmartMinyanServer.Controllers
             mRepo = repository;
         }
         // GET all minyanim in the database
+        //Use the auth filter to prevent unautherized requests
+        [TypeFilter(typeof(AuthFilter))]
         [HttpGet]
         public JsonResult GetAllMinyanim()
         {
@@ -22,6 +25,7 @@ namespace SmartMinyanServer.Controllers
         }
 
         // GET nearby minyanim
+        [TypeFilter(typeof(AuthFilter))]
         [HttpGet]
         public JsonResult GetNearbyMinyanim(double latitude, double longitude,double milesNearby)
         {
@@ -29,6 +33,7 @@ namespace SmartMinyanServer.Controllers
         }
 
         // POST a new minyan
+        [TypeFilter(typeof(AuthFilter))]
         [HttpPost]
         public void PostMinyan([FromBody] Minyan minyan)
         {
@@ -36,30 +41,42 @@ namespace SmartMinyanServer.Controllers
         }
 
         // POST a new User
+        // There is no auth filter here since we have to be able to create a user to get an authentication token
         [HttpPost]
-        public void PostUser([FromBody] User user)
+        public JsonResult PostUser([FromBody] User user)
         {
-            mRepo.AddUser(user);
+         bool success =  mRepo.AddUser(user);
+            if (success)
+            {
+                return Json("Success");
+            }
+            else {
+                return Json("Error: User allready exists");
+            }
         }
-     
+
         // DELETE Minyan
+        [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
         public void DeleteMinyan(int id)
         {
             mRepo.DeleteMinyan(id);
         }
         // DELETE User
+        [TypeFilter(typeof(AuthFilter))]
         [HttpDelete]
         public void DeleteUser(int id)
         {
             mRepo.DeleteUser(id);
         }
         //UPDATE minyan
+        [TypeFilter(typeof(AuthFilter))]
         [HttpPatch]
         public void PatchMinyan([FromBody] Minyan minyan) {
             mRepo.UpdateMinyan(minyan);
         }
 
+        [TypeFilter(typeof(AuthFilter))]
         [HttpPatch]
         public void PatchUser([FromBody] User user)
         {

@@ -2,9 +2,14 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SmartMinyanServer.Models;
+using System.Text;
+using System.Diagnostics;
 
 namespace SmartMinyanServer.AuthFilters
 {
+    /// <summary>
+    /// This Authorization filter ensures that the request provides a valid user guid when accessing api methods that need authentication
+    /// </summary>
     public class AuthFilter : ResultFilterAttribute
     {
         public IRepository mRepo;
@@ -13,8 +18,8 @@ namespace SmartMinyanServer.AuthFilters
         }
         public override void OnResultExecuting(ResultExecutingContext context)
         {
-            if(context.HttpContext.Request.Headers.ContainsKey("auth")){
-                string guid = context.HttpContext.Request.Headers["auth"];
+            if(context.HttpContext.Request.Headers.ContainsKey("Authorization")){
+                string guid = context.HttpContext.Request.Headers["Authorization"];
                 //ensure the request header auth contains a valid user guid
                 try
                 {
@@ -30,7 +35,10 @@ namespace SmartMinyanServer.AuthFilters
             }
             if(context.Cancel==true){
                 //set the result property to show a message that we require auth
-                context.HttpContext.Response.Body.
+                string message = "Authentication is required to make this request";
+                byte[] msgBytes = Encoding.ASCII.GetBytes(message);
+                //write the response to the stream
+                context.HttpContext.Response.Body.Write(msgBytes,0,msgBytes.Length); 
             }
 
         }
