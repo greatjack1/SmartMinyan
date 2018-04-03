@@ -51,7 +51,7 @@ namespace SmartMinyanServer.Controllers
                 return Json(user);
             } catch(Exception ex){
                 //user not found, return Error, no user found
-                return Json("Error");
+                return Json(new {Response = "Error"});
             }
         }
         // POST a new User
