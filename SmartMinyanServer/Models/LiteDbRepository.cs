@@ -25,8 +25,8 @@ namespace SmartMinyanServer.Models
 
         public bool AddUser(User user)
         {
-            //if the guid exists then dont add
-            if (mUsers.Exists((n) => n.Guid == user.Guid)) {
+            //if the guid exists or email address is allready in the system then dont add
+            if (mUsers.Exists((n) => n.Guid == user.Guid || n.EmailAddress==user.EmailAddress)) {
                 return false;
             }
            mUsers.Insert(user);
