@@ -50,13 +50,8 @@ namespace SmartMinyanServer.Models
 
         public IEnumerable<Minyan> getMinyanim()
         {
-           return mMinyan.FindAll();
+            return mMinyan.FindAll();
 
-        }
-
-        public User GetUser(string userName, string emailAddress)
-        {
-            return mUsers.FindOne((n) => n.UserName == userName && n.EmailAddress ==emailAddress);
         }
 
         public IEnumerable<User> getUsers()
@@ -87,10 +82,11 @@ namespace SmartMinyanServer.Models
         //extremly ineffecient, hopefull will be able to iprove later
         public List<Comment> GetUsersComments(User user)
         {
+            string fullname = user.FirstName + " " + user.LastName;
             List<Comment> comments = new List<Comment>();
             foreach (Minyan minyan in mMinyan.FindAll()) {
                 foreach (Comment comment in minyan.Comments) {
-                    if (comment.UserName == user.UserName) {
+                    if (comment.FullName == fullname) {
                         comments.Add(comment);
                     }
                 }

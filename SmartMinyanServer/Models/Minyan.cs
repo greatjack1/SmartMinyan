@@ -8,6 +8,8 @@ namespace SmartMinyanServer.Models
         public DateTime CreationTime { get; set; }
         public DateTime MinyanTime {get; set;}
         public int Id { get; set; }
+        //a special guid to represent each minyan
+        public string Guid { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Address { get; set; }

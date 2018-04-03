@@ -11,7 +11,6 @@ namespace SmartMinyanServer.Models
         void DeleteUser(int userID);
         void UpdateUser(User user);
         IEnumerable<User> getUsers();
-        User GetUser(String userName, String emailAddress);
 
         //methods for minyanim
         bool AddMinyan(Minyan minyan);
