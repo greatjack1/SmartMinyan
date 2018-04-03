@@ -43,15 +43,15 @@ namespace SmartMinyanServer.Controllers
         //Login post method, send in a email address and password and get back the guid token for that user
         //No Auth since we are just logging in
         [HttpPost]
-        public string PostLogin([FromBody] PostLogin credentials)
+        public JsonResult PostLogin([FromBody] PostLogin credentials)
         { 
             //if credentials are valid then return the guid
             try{
                 var user = mRepo.getUsers().First((n) => ((n.EmailAddress == credentials.EmailAddress) && n.PassWord == credentials.PassWord));
-                return user.Guid;
+                return Json(user);
             } catch(Exception ex){
                 //user not found, return Error, no user found
-                return "Error: No user found";
+                return Json("Error");
             }
         }
         // POST a new User
