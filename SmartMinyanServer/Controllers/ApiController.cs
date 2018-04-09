@@ -57,15 +57,15 @@ namespace SmartMinyanServer.Controllers
         // POST a new User
         // There is no auth filter here since we have to be able to create a user to get an authentication token
         [HttpPost]
-        public String PostUser([FromBody] User user)
+        public JsonResult PostUser([FromBody] User user)
         {
          bool success =  mRepo.AddUser(user);
             if (success)
             {
-                return "Success";
+                return Json("Success");
             }
             else {
-                return "Error";
+                return Json("Error");
             }
         }
 
