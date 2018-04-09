@@ -12,7 +12,7 @@ namespace SmartMinyanServer.Models
         LiteCollection<User> mUsers;
         LiteCollection<Minyan> mMinyan;
         public LiteDbRepository(){
-            mLiteDatabase = new LiteDatabase("smartminyan.db");
+            mLiteDatabase = new LiteDatabase("Filename=smartminyan.db; Mode=Exclusive;");
             mUsers = mLiteDatabase.GetCollection<User>("users");
             mMinyan = mLiteDatabase.GetCollection<Minyan>("minyanim");
         }

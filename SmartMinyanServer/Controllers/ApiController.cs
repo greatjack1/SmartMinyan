@@ -50,6 +50,7 @@ namespace SmartMinyanServer.Controllers
                 var user = mRepo.getUsers().First((n) => ((n.EmailAddress == credentials.EmailAddress) && n.PassWord == credentials.PassWord));
                 return Json(user);
             } catch(Exception ex){
+                Console.WriteLine("Error on PostLogin. MSG: " + ex.Message);
                 //user not found, return a blank user
                 return Json(new User());
             }
