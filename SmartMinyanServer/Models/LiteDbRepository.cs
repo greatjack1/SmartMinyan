@@ -82,7 +82,7 @@ namespace SmartMinyanServer.Models
         //extremly ineffecient, hopefull will be able to iprove later
         public List<Comment> GetUsersComments(User user)
         {
-            string fullname = user.FirstName + " " + user.LastName;
+            string fullname = user.FullName;
             List<Comment> comments = new List<Comment>();
             foreach (Minyan minyan in mMinyan.FindAll()) {
                 foreach (Comment comment in minyan.Comments) {
