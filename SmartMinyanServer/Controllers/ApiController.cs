@@ -50,8 +50,8 @@ namespace SmartMinyanServer.Controllers
                 var user = mRepo.getUsers().First((n) => ((n.EmailAddress == credentials.EmailAddress) && n.PassWord == credentials.PassWord));
                 return Json(user);
             } catch(Exception ex){
-                //user not found, return Error, no user found
-                return Json(new {Response = "Error"});
+                //user not found, return a blank user
+                return Json(new User());
             }
         }
         // POST a new User
