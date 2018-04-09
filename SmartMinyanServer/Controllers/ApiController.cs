@@ -60,12 +60,19 @@ namespace SmartMinyanServer.Controllers
         [HttpPost]
         public JsonResult PostUser([FromBody] User user)
         {
-         bool success =  mRepo.AddUser(user);
-            if (success)
+            try
             {
-                return Json("Success");
-            }
-            else {
+                bool success = mRepo.AddUser(user);
+                if (success)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("Error");
+                }
+            } catch(Exception ex){
+                Console.WriteLine("Error when adding user. MSG:" +ex.Message);
                 return Json("Error");
             }
         }
