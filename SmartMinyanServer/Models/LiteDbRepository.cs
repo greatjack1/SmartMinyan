@@ -36,7 +36,7 @@ namespace SmartMinyanServer.Models
             //To keep it simple add 180 to each value to prevent negatives and then compare
             latitude = latitude + 90;
             longitude = longitude + 180;
-            return mMinyan.Find((n)=>((n.Latitude + 90.0) - latitude< degreesAroundToCheck || (n.Longitude +180.0) - longitude < degreesAroundToCheck));
+            return mMinyan.Find((n) => ((((latitude > n.Latitude + 80) ? latitude - (n.Latitude + 80) : (n.Latitude + 80) - latitude) <= degreesAroundToCheck) || (((longitude > n.Longitude + 180) ? longitude - (n.Latitude + 180) : (n.Longitude + 180) - longitude) <= degreesAroundToCheck)));
         }
         public void DeleteMinyan(int minyanID)
         {
