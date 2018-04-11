@@ -28,17 +28,24 @@ namespace SmartMinyanServer.Controllers
         // GET nearby minyanim
         [TypeFilter(typeof(AuthFilter))]
         [HttpGet]
-        public JsonResult GetNearbyMinyanim(double latitude, double longitude,double milesNearby)
+        public JsonResult GetNearbyMinyanim(double latitude, double longitude,double degreesAround)
         {
-            return Json(mRepo.getNearbyMinyan(latitude,longitude,milesNearby));
+            return Json(mRepo.getNearbyMinyan(latitude,longitude,degreesAround));
         }
 
         // POST a new minyan
         [TypeFilter(typeof(AuthFilter))]
         [HttpPost]
-        public void PostMinyan([FromBody] Minyan minyan)
+        public JsonResult PostMinyan([FromBody] Minyan minyan)
         {
-            mRepo.AddMinyan(minyan);
+            try
+            {
+                mRepo.AddMinyan(minyan);
+                return Json("Success");
+            } catch(Exception ex){
+                Console.WriteLine("Error when adding minyan. MSG: " + ex.Message);
+                return Json("Error");
+            }
         }
         //Login post method, send in a email address and password and get back the guid token for that user
         //No Auth since we are just logging in
